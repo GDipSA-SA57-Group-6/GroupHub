@@ -87,6 +87,9 @@ public class GroupHubController {
                 if(groupHub.getQuantity() <= 0) {
                     return new ResponseEntity<>("There is no head count!", HttpStatus.EXPECTATION_FAILED);
                 }
+                if(LocalDate.now().isAfter(groupHub.getEndTime())) {
+                    return new ResponseEntity<>("Exceed the deadline.", HttpStatus.EXPECTATION_FAILED);
+                }
 
                 if(!groupHub.getHasUsers().contains(user)) {
                     groupHubSubscriberService.eventConfirm(userId, groupId);
@@ -110,6 +113,9 @@ public class GroupHubController {
             Optional<GroupHub> optionalGroupHub = groupHubRepository.findById(groupId);
             if(optionalGroupHub.isPresent()) {
                 GroupHub groupHub = optionalGroupHub.get();
+                if(LocalDate.now().isAfter(groupHub.getEndTime())) {
+                    return new ResponseEntity<>("Exceed the deadline.", HttpStatus.EXPECTATION_FAILED);
+                }
                 if(groupHub.getHasUsers().contains(user)) {
                     groupHubSubscriberService.eventCancel(userId, groupId);
                     return new ResponseEntity<>("Success!", HttpStatus.OK);
