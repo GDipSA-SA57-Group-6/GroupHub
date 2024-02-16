@@ -62,6 +62,7 @@ public class GroupHubController {
         GroupHub newGroupHub = new GroupHub();
         newGroupHub.setName(inGroupHub.getName());
         newGroupHub.setQuantity(inGroupHub.getQuantity());
+        newGroupHub.setInitialQuantity(inGroupHub.getQuantity());
         newGroupHub.setLatitude(inGroupHub.getLatitude());
         newGroupHub.setLongitude(inGroupHub.getLongitude());
         newGroupHub.setEndTime(inGroupHub.getEndTime());
@@ -128,5 +129,10 @@ public class GroupHubController {
         }else{
             return new ResponseEntity<>("User does not exist!", HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity<?> getAllGroupHub() {
+        return new ResponseEntity<>(groupHubRepository.findAll(), HttpStatus.OK);
     }
 }
