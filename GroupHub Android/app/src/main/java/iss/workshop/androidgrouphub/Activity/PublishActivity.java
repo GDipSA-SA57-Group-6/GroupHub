@@ -1,12 +1,5 @@
 package iss.workshop.androidgrouphub.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
-
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,18 +9,21 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.google.android.gms.maps.GoogleMap;
 import com.hitomi.cmlibrary.CircleMenu;
 import com.hitomi.cmlibrary.OnMenuSelectedListener;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -44,13 +40,10 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import iss.workshop.androidgrouphub.Model.GroupHub;
-import iss.workshop.androidgrouphub.Network.NetworkUtils;
 import iss.workshop.androidgrouphub.R;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -144,8 +137,10 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
                     public void onMenuSelected(int index) {
                         switch (index) {
                             case 1:
-//                                Toast.makeText(PublishActivity.this, "map", Toast.LENGTH_SHORT).show();
-                                constraintLayout.setBackgroundColor(Color.parseColor("#ECF2FF"));
+                                Intent mapIntent = new Intent(PublishActivity.this, MapActivity.class);
+                                mapIntent.putExtra("latitude", groupHubLatitude);
+                                mapIntent.putExtra("longitude", groupHubLongitude);
+                                startActivity(mapIntent);
                                 break;
                             case 0:
 //                                Toast.makeText(PublishActivity.this, "Submit", Toast.LENGTH_SHORT).show();

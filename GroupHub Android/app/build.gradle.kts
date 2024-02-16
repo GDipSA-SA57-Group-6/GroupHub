@@ -1,5 +1,9 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin") version "2.0.1" apply false
+
 }
 
 android {
@@ -14,6 +18,15 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // 从local.properties中读取API密钥
+        val localProperties = Properties()
+        file("../local.properties").inputStream().use {
+            localProperties.load(it)
+        }
+        val mapsApiKey = localProperties.getProperty("MAPS_API_KEY", "")
+        // 使用占位符设置API密钥
+        resValue("string", "maps_api_key", mapsApiKey)
     }
 
     buildTypes {
@@ -40,6 +53,11 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.navigation:navigation-fragment:2.5.3")
     implementation("androidx.navigation:navigation-ui:2.5.3")
+
+    // Google Map
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.code.gson:gson:2.8.8")
 
     // Ok Http
     implementation("com.squareup.okhttp3:okhttp:4.4.1")
