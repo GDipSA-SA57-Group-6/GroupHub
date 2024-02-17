@@ -7,6 +7,7 @@ import edu.nus.iss.gdipsa.grouphub.RepositoryLayer.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,5 +47,19 @@ public class GroupHubPublisherService implements IPublisher {
     @Override
     public void deleteByGroupHubID(Long groupHubID) {
 
+    }
+
+    /**
+     * 对 返回某用户所有发布订单 接口的实现
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<GroupHub> getGroupHubPublishedBy(Integer userId) {
+        List<GroupHub> items = groupHubRepository.findAll();
+        items = items.stream()
+                .filter(item -> item.getPublishedBy().getUserId().equals(userId))
+                .toList();
+        return items;
     }
 }

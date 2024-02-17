@@ -65,5 +65,33 @@ public class GroupHubSubscriberService implements ISubscriber {
     public void ec_Like(Integer userId, long groupId) {
 
     }
+
+    /**
+     * 对返回某用户所有拼团事件的实现
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<GroupHub> getSubscribedGroupHubs(Integer userId) {
+        // 默认userId有效
+        User user = userRepository.findById(userId).get();
+        List<GroupHub> items = groupHubRepository.findAll();
+        items = items.stream()
+                .filter(item -> item.getHasUsers().contains(user))
+                .toList();
+        return items;
+    }
+
+    /**
+     * 返回某个拼单所参与的用户
+     * @param groupId
+     * @return
+     */
+    @Override
+    public List<User> getSubscribedUsersByGroupId(Long groupId) {
+        // 默认GroupId有效
+        GroupHub groupHub = groupHubRepository.findById(groupId).get();
+        return groupHub.getHasUsers().stream().toList();
+    }
 }
 

@@ -2,6 +2,8 @@ package edu.nus.iss.gdipsa.grouphub.InterfaceLayer;
 
 import edu.nus.iss.gdipsa.grouphub.ModelLayer.GroupHub;
 
+import java.util.List;
+
 public interface IPublisher {
     /**
      * 发布一个活动
@@ -24,4 +26,11 @@ public interface IPublisher {
      * @param groupHubID
      */
     void deleteByGroupHubID(Long groupHubID);
+
+    /**
+     * 返回某个用户所发布的订单
+     * @param userId
+     * @return
+     */
+    List<GroupHub> getGroupHubPublishedBy(Integer userId);
 }

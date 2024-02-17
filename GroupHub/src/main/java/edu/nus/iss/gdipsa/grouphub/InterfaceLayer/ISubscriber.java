@@ -3,6 +3,7 @@ package edu.nus.iss.gdipsa.grouphub.InterfaceLayer;
 import java.util.List;
 
 import edu.nus.iss.gdipsa.grouphub.ModelLayer.GroupHub;
+import edu.nus.iss.gdipsa.grouphub.ModelLayer.User;
 
 public interface ISubscriber {
     /**
@@ -39,6 +40,26 @@ public interface ISubscriber {
      */
     boolean eventCancel(Integer userId, long groupId);
 
+    /**
+     * 用户喜欢一个事件
+     * 暂时不写
+     * @param userId
+     * @param groupId
+     */
     void ec_Like(Integer userId, long groupId);
+
+    /**
+     * 返回某个用户所参与拼团的事件
+     * @param userId
+     * @return
+     */
+    List<GroupHub> getSubscribedGroupHubs(Integer userId);
+
+    /**
+     * 返回某个拼单所参与的用户
+     * @param groupId
+     * @return
+     */
+    List<User> getSubscribedUsersByGroupId(Long groupId);
 }
 

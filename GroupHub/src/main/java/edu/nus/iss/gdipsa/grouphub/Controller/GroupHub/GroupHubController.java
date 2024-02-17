@@ -135,4 +135,35 @@ public class GroupHubController {
     public ResponseEntity<?> getAllGroupHub() {
         return new ResponseEntity<>(groupHubRepository.findAll(), HttpStatus.OK);
     }
+
+    /**
+     * 返回某用户所有拼团事件
+     * @param userId
+     * @return
+     */
+    @GetMapping("/getSubscription")
+    public ResponseEntity<?> getUserSubscription(@RequestParam("userId") Integer userId) {
+        // @RequestParam("userId")注解用于将请求参数userId映射到方法的参数userId上
+        return new ResponseEntity<>(groupHubSubscriberService.getSubscribedGroupHubs(userId), HttpStatus.OK);
+    }
+
+    /**
+     * 返回 某用户所有发布的订单
+     * @param userId
+     * @return
+     */
+    @GetMapping("/getPublished")
+    public ResponseEntity<?> getUserPublishedGroupHubs(@RequestParam("userId") Integer userId) {
+        return new ResponseEntity(groupHubPublisherService.getGroupHubPublishedBy(userId), HttpStatus.OK);
+    }
+
+    /**
+     * 返回某个拼单所参与的用户
+     * @param groupId
+     * @return
+     */
+    @GetMapping("/getSubscribedUsers")
+    public ResponseEntity<?> getSubscribedUsersByGroupId(@RequestParam("groupId") Long groupId) {
+        return new ResponseEntity<>(groupHubSubscriberService.getSubscribedUsersByGroupId(groupId), HttpStatus.OK);
+    }
 }
