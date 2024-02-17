@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -137,10 +138,18 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
                     public void onMenuSelected(int index) {
                         switch (index) {
                             case 1:
-                                Intent mapIntent = new Intent(PublishActivity.this, MapActivity.class);
-                                mapIntent.putExtra("latitude", groupHubLatitude);
-                                mapIntent.putExtra("longitude", groupHubLongitude);
-                                startActivity(mapIntent);
+                                // 定义位置的纬度和经度
+                                double latitude = groupHubLatitude; // 从某处获取的纬度
+                                double longitude = groupHubLongitude; // 从某处获取的经度
+                                // 创建地图Intent来显示这个位置
+                                Uri gmmIntentUri = Uri.parse("geo:" + latitude + "," + longitude + "?q=" + Uri.encode(latitude + "," + longitude));
+                                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                                mapIntent.setPackage("com.google.android.apps.maps");
+                                if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                                    startActivity(mapIntent);
+                                } else {
+                                    Toast.makeText(PublishActivity.this, "Google Maps not installed", Toast.LENGTH_SHORT).show();
+                                }
                                 break;
                             case 0:
 //                                Toast.makeText(PublishActivity.this, "Submit", Toast.LENGTH_SHORT).show();
